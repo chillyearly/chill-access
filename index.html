@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHILL | AI Logistics Architecture</title>
+    <style>
+        /* CORE VARIABLES & RESET */
+        :root {
+            --bg-dark: #0f1115;
+            --bg-card: #161b22;
+            --accent: #00f2ff; /* Cyan for "Flow" */
+            --accent-dim: rgba(0, 242, 255, 0.1);
+            --text-main: #e6e6e6;
+            --text-muted: #949aa5;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 { color: white; line-height: 1.2; }
+        h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -1px; }
+        h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .highlight { color: var(--accent); }
+        .subtitle { color: var(--text-muted); font-size: 1.2rem; max-width: 600px; }
+
+        /* LAYOUT UTILITIES */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        section { padding: 80px 0; border-bottom: 1px solid #222; }
+
+        /* NAVIGATION */
+        nav {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            background: rgba(15, 17, 21, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+        .nav-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-weight: 700; font-size: 1.5rem; color: white; text-decoration: none; }
+        .logo span { color: var(--accent); }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .cta-btn {
+            background: var(--accent);
+            color: #000;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px var(--accent-dim); }
+
+        /* HERO SECTION */
+        .hero {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, #1a2333 0%, var(--bg-dark) 70%);
+        }
+        .hero-content { max-width: 800px; }
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-dim);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+        }
+
+        /* METRICS GRID */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 60px;
+        }
+        .metric-card {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #2a2f3a;
+        }
+        .metric-val { font-size: 2.5rem; font-weight: 700; color: white; display: block; }
+        .metric-label { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* ABOUT / ARCHITECT SECTION */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .bio-text ul { list-style: none; margin-top: 20px; }
+        .bio-text li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-main);
+        }
+        .bio-text li::before {
+            content: "▹";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+        .tech-stack span {
+            display: inline-block;
+            background: #222;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-top: 10px;
+            border: 1px solid #333;
+        }
+
+        /* CHILL FRAMEWORK SECTION */
+        .chill-card {
+            background: linear-gradient(145deg, #161b22, #0f1115);
+            border: 1px solid #2a2f3a;
+            padding: 40px;
+            border-radius: 12px;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .chill-card::after {
+            content: "";
+            position: absolute;
+            top: 0; right: 0; width: 200px; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,242,255,0.05));
+            pointer-events: none;
+        }
+
+        /* FOOTER */
+        footer { padding: 50px 0; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .split-section { grid-template-columns: 1fr; }
+            .nav-links { display: none; } /* Simplified for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-flex">
+            <a href="#" class="logo">CHILL<span>.ai</span></a>
+            <div class="nav-links">
+                <a href="#logic">Respiratory Logic</a>
+                <a href="#about">The Architect</a>
+                <a href="#contact" class="cta-btn">Hire the Consultant</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-badge">Available for Enterprise Deployment</span>
+                <h1>Stop Managing Backlogs.<br>Start <span class="highlight">Architecting Flow.</span></h1>
+                <p class="subtitle" style="margin-top: 20px;">
+                    Most logistics AI simply reports the jam. <strong>CHILL (Critical Health Integrated Learning Library)</strong> uses respiratory logic to fix it before it happens.
+                </p>
+                <div style="margin-top: 40px;">
+                    <a href="mailto:your-email@example.com" class="cta-btn">Audit My Warehouse Flow</a>
+                    <a href="#logic" style="margin-left: 20px; color: white; text-decoration: none;">How it works ↓</a>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-val">15%</span>
+                    <span class="metric-label">Avg. Throughput Gain</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-val">0</span>
+                    <span class="metric-label">Critical Failures</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-val">5+ Yrs</span>
+                    <span class="metric-label">Amazon Central Flow Data</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="logic">
+        <div class="container">
+            <span class="highlight" style="font-weight: 600; letter-spacing: 1px;">THE FRAMEWORK</span>
+            <h2>The "Respiratory" Approach</h2>
+            <div class="split-section">
+                <div>
+                    <p style="margin-bottom: 20px;">
+                        Standard logistics tools view warehouses as static boxes. CHILL views them as <strong>living lungs</strong>. 
+                        It continuously monitors the "Inhale" (Inbound Dock) and "Exhale" (Outbound Sortable) to prevent critical health failure.
+                    </p>
+                    <p>
+                        When the system detects "shortness of breath" (backlog spikes), it doesn't just alert a manager. It autonomously drafts re-balancing protocols for the Flow Lead to execute.
+                    </p>
+                </div>
+                <div class="chill-card">
+                    <h3 style="color:white; margin-bottom: 15px;">CHILL Core V1.0</h3>
+                    <div style="font-family: monospace; color: var(--accent);">
+                        > MONITOR: AZA3_Inbound_Rate<br>
+                        > DETECT: Congestion_Pattern_Alpha<br>
+                        > ACTION: Reallocate 15% headcount to Sort<br>
+                        > STATUS: <span style="color:#00ff88">FLOW RESTORED</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="split-section">
+                <div>
+                   <div style="width: 100%; height: 300px; background: #222; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #555;">
+                       [Architect Image Placeholder]
+                   </div>
+                </div>
+                <div class="bio-text">
+                    <h2>The Architect</h2>
+                    <p>
+                        I am <strong>Steven "Chilly" Early</strong>, a Logistics AI Architect and Amazon Central Flow Veteran. 
+                        I bridge the gap between "Tech Theory" and "Floor Reality."
+                    </p>
+                    <ul>
+                        <li><strong>Amazon Central Flow Lead:</strong> 5+ years managing high-volume sortable operations (AZA3).</li>
+                        <li><strong>Audio Engineer (CRAS Alum):</strong> My background in signal flow (SSL/Neve) allows me to treat data noise like audio frequencies—cutting the static to find the signal.</li>
+                        <li><strong>Veteran:</strong> US Army discipline applied to supply chain logistics.</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span>Flow Logic</span>
+                        <span>Six Sigma (In Progress)</span>
+                        <span>Pro Tools Certified</span>
+                        <span>Agentic AI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="text-align: center;">
+        <div class="container">
+            <h2>Ready to Stabilize Your Operations?</h2>
+            <p class="subtitle" style="margin: 20px auto;">
+                I am currently accepting select consulting engagements for 2026. 
+                Let's discuss how CHILL logic can be applied to your network.
+            </p>
+            <br>
+            <a href="mailto:your-email@example.com" class="cta-btn" style="font-size: 1.2rem; padding: 15px 40px;">Contact Me</a>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #555;">Phoenix, AZ | Remote Consulting Available</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            &copy; 2026 Steven Dorian Early. CHILL Framework. All Rights Reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
